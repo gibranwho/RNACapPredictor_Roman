@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pickle
 from sklearn.neighbors import KNeighborsClassifier
 from itertools import product
 from tqdm import tqdm
@@ -58,6 +59,30 @@ def predict(X_test_sample, X_train, y_train):
     
     return list(zip(neighbor_labels, similarities))
 
+def save_knn_model (model, filename='knn_model.pkl'):
+    """
+    Save the kNN model to a file using pickle.
+
+    Args:
+        model: The trained kNN model to save
+        filename: The output filename (default: 'knn_model.pkl')
+    """
+    with open(filename, 'wb') as file:
+        picle.dump(model, file)
+    print (f"kNN model saved to {filename}")
+
+def load_knn_model(filename='knn_model.pkl'):
+    """
+    Load a kNN model from a pickle file.
+    Args:
+        filename: The input filename (default: 'knn_model.pkl')
+    Returns:
+        The loaded kNN model
+    """
+    with open(filename, 'rb') as file:
+        model = pickle.load(file)
+    print(f"kNN model loaded from {filename}")
+    return model
 
 def predict_cap(df_train, df_test, show_true_cap=False, include_insdel=False, print_top_k=50):
     # Get unique RT names from all datasets
