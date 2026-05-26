@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "training_data": "FM179-FM181_fingerprints.csv",
+  "training_date": "2025-05-26",
+  "description": "Initial model trained on FM179-FM181 in vitro samples",
+  "caps": [
+    "Ap₄A-U1",
+    "NAD-U1",
+    "TMG-U1",
+    "m⁷Gp₃A-U1",
+    "ppp-U1",
+    "y-meGTP-U1"
+  ],
+  "rts": [
+    "INDURO",
+    "ProtoScript",
+    "Marathon",
+    "GoScript",
+    "EpiScript"
+  ],
+  "parameters": {
+    "step_size": 0.02,
+    "replicates_per_cap": 5,
+    "metric": "cosine",
+    "classifier": "KNeighborsClassifier",
+    "n_neighbors": "all"
+  },
+  "variants": {
+    "exclude_zero_TRUE_no_insdel": {
+      "mixes_file": "df_train_mixes_exclude_zero_TRUE_step002.parquet",
+      "features_file": "training_features_exclude_zero_TRUE_step002.npz",
+      "exclude_zero_caps": true,
+      "include_insdel": false,
+      "use_case": "VALIDATION / CONTROLLED EXPERIMENTS",
+      "description": "For known/controlled samples where you expect all caps to be present. Prevents 'catch-all' bias.",
+      "generation_stats": {
+        "total_combinations": 1906884,
+        "generation_time_seconds": 6550
+      }
+    },
+    "exclude_zero_TRUE_with_insdel": {
+      "mixes_file": "df_train_mixes_exclude_zero_TRUE_INSDEL_step002.parquet",
+      "features_file": "training_features_exclude_zero_TRUE_INSDEL_step002.npz",
+      "exclude_zero_caps": true,
+      "include_insdel": true,
+      "use_case": "VALIDATION / CONTROLLED EXPERIMENTS (with INS/DEL patterns)",
+      "description": "For known/controlled samples with insertion/deletion signal. True mixtures only.",
+      "generation_stats": {
+        "total_combinations": 1906884,
+        "generation_time_seconds": 6550
+      }
+    },
+    "exclude_zero_FALSE_no_insdel": {
+      "mixes_file": "df_train_mixes_exclude_zero_FALSE_step002.parquet",
+      "features_file": "training_features_exclude_zero_FALSE_step002.npz",
+      "exclude_zero_caps": false,
+      "include_insdel": false,
+      "use_case": "BLIND SAMPLES / FIRST-PASS SCREENING (RECOMMENDED)",
+      "description": "For blind/unknown samples. Explores all cap combinations including single-cap.",
+      "generation_stats": {
+        "total_combinations": 3329692,
+        "generation_time_seconds": 11522
+      }
+    },
+    "exclude_zero_FALSE_with_insdel": {
+      "mixes_file": "df_train_mixes_exclude_zero_FALSE_INSDEL_step002.parquet",
+      "features_file": "training_features_exclude_zero_FALSE_INSDEL_step002.npz",
+      "exclude_zero_caps": false,
+      "include_insdel": true,
+      "use_case": "BLIND SAMPLES / EXPLORATORY (with INS/DEL patterns)",
+      "description": "For blind/unknown samples with insertion/deletion signal. Most comprehensive model.",
+      "generation_stats": {
+        "total_combinations": 3329692,
+        "generation_time_seconds": 11522
+      }
+    }
+  }
+}
